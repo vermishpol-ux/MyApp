@@ -1,0 +1,14 @@
+export type StudentStatus='active'|'paused'|'waiting'|'archived';
+export type PaymentMode='perLesson'|'monthly';
+export interface Student{id:string;name:string;grade:string;subject:string;price:number;status:StudentStatus;contact:string;parent:string;parentContact:string;goal:string;note:string;lessons:number;debt:number;next:string;paymentMode:PaymentMode}
+export interface Group{id:string;name:string;subject:string;level:string;studentIds:string[];maxStudents:6;pricePerStudent:number;duration:number;status:'active'|'paused'|'archived';notes:string}
+export interface ScheduleDay{dayOfWeek:number;startTime:string;duration:number}
+export interface RecurringSchedule{id:string;targetType:'student'|'group';targetId:string;weekdays:ScheduleDay[];periodType:'academicYear'|'months'|'custom';startDate:string;endDate:string;selectedMonths:number[];active:boolean}
+export interface Lesson{id:string;studentId?:string;groupId?:string;recurringScheduleId?:string;date:string;time:string;duration:number;subject:string;price:number;topic:string;comment:string;status:'planned'|'done'|'cancelled'|'absent';paid:boolean}
+export interface Homework{id:string;studentId?:string;groupId?:string;title:string;deadline:string;status:'assigned'|'submitted'|'checked'|'overdue'}
+export interface Payment{id:string;studentId:string;date:string;amount:number;method:string;period?:string;type?:'lesson'|'month'|'partial'|'other';comment?:string}
+export interface Charge{id:string;studentId:string;lessonId?:string;month?:string;amount:number;status:'pending'|'paid'|'partial'|'debt'|'cancelled';createdAt:string;description:string}
+export interface Adjustment{id:string;studentId:string;lessonId?:string;amount:number;reason:string;date:string;targetMonth?:string;status:'available'|'used'}
+export interface TutorProfile{name:string;subject:string;phone:string;email:string;defaultPrice:number;duration:number;currency:string;dark:boolean}
+export interface Notification{id:string;text:string;kind:'danger'|'warning'|'success'}
+export interface AppData{students:Student[];groups:Group[];recurringSchedules:RecurringSchedule[];lessons:Lesson[];homework:Homework[];payments:Payment[];charges:Charge[];adjustments:Adjustment[];profile:TutorProfile;notifications:Notification[];demo:boolean;version:number}

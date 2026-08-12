@@ -1,0 +1,4 @@
+import {createContext,useContext,useEffect,useState,ReactNode} from 'react';import {AppData} from './types';import {storageService} from './services/storageService';
+type Ctx={data:AppData;setData:React.Dispatch<React.SetStateAction<AppData>>;toast:string;notify:(s:string)=>void};const Context=createContext<Ctx|null>(null);
+export function AppProvider({children}:{children:ReactNode}){const[data,setData]=useState(storageService.load);const[toast,setToast]=useState('');useEffect(()=>storageService.save(data),[data]);useEffect(()=>{document.documentElement.dataset.theme=data.profile.dark?'dark':'light'},[data.profile.dark]);const notify=(s:string)=>{setToast(s);setTimeout(()=>setToast(''),2600)};return <Context.Provider value={{data,setData,toast,notify}}>{children}</Context.Provider>}
+export const useApp=()=>{const x=useContext(Context);if(!x)throw Error('Provider missing');return x};
